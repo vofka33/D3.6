@@ -10,7 +10,7 @@ def censor(text):
    if type(text) != str:
       return ('приходит неверный тип данных')
 
-   bad_words = ['редиска', 'вжик']
+   bad_words = ['редиска']
    filtred_message = ''
 
    for word in text.split():
