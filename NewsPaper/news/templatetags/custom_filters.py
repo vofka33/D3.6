@@ -12,27 +12,16 @@ def censor(text):
 
    bad_words = ['редиска', 'вжик']
    filtred_message = ''
-   string = ''
-      
-   for i in text:
-      string += i
-      string2 = string.lower()
 
-      flag = 0
-      for j in bad_words:
-         if not string2 in j:
-            flag += 1
-         if string2 == j:
-            filtred_message += string[:1] + '*' * (len(string) - 1)
-            flag -= 1
-            string = ''
+   for word in text.split():
+      word2 = word.strip(' ., !() ').lower()
+      if word2 in bad_words:
+         word2 = word[:1] + ('*' * (len(word2) - 1))
 
-      if flag == len(bad_words):
-         filtred_message += string
-         string = ''
+         if len(word2) < len(word):
+            word2 += word[-1]
+         filtred_message += f'{word2} '
 
-   if string2 != '' and string2 not in bad_words:
-      filtred_message += string
-   elif string2 != '':
-      filtred_message += string + '*' * len(string)
+      else:
+         filtred_message += f'{word} '
    return filtred_message
