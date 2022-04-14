@@ -1,0 +1,19 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %}  Детали {% endblock title %}
+
+{% block content %}
+<h1> {{ post.title | censor }} </h1>
+<div style="text-align: left">{{ post.text | censor }}</div>
+<br>
+<table align="right">
+  <tbody>
+    <tr>
+      <td scope="row">{{ post.author.authorUser }}</td>
+      <td>{{ post.dateCreation | date:'d M Y' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+{% endblock content %}

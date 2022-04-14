@@ -1,0 +1,49 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %} Product list {% endblock title %}
+
+{% block content %}
+<h2>Вы действительно хотите удалить публикацию?</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead bgcolor="#212529" style="color: #FFFFFF" border="1">
+        <th>
+            <strong>Заголовок</strong>
+        </th>
+        <th>
+            <strong>Дата публикации</strong>
+        </th>
+        <th>
+            <strong>Краткий текст</strong>
+        </th>
+        <th>
+            <strong>Автор</strong>
+        </th>
+
+    </thead>
+    <tr>
+
+      <td>
+            {{ post.title | censor }}
+        </td>
+        <td align="left">
+            {{ post.dateCreation | date:'d M Y' }}
+        </td>
+        <td align="left">
+            {{ post.text|truncatewords:20 | censor }}
+        </td>
+        <td>
+            {{ post.author.authorUser }}
+        </td>
+
+
+
+
+
+  </tr>
+</table>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+{% endblock content %}

@@ -1,0 +1,60 @@
+{% extends 'flatpages/default.html' %}
+{% block title %} Post list {% endblock title %}
+{% block content %}
+
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
+    <input type="submit" value="Найти">
+</form>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <th>
+            Date
+        </th>
+        <th>
+            title
+        </th>
+        <th>
+            author
+        </th>
+
+    </thead>
+    {% for product in products %}
+    <tr>
+        <td>
+            {{ post.dateCreation }}
+        </td>
+        <td>
+            {{ post.title }}
+        </td>
+        <td>
+
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% if is_paginated %}
+
+    {% if page_obj.has_previous %}
+        <a href="">First</a>
+        <a href=""><<<</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="">>>></a>
+        <a href="">Last</a>
+    {% endif %}
+
+{% endif %}
+{% endblock content %}
