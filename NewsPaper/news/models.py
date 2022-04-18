@@ -31,19 +31,19 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, verbose_name="Автор", on_delete=models.CASCADE)
     NEWS = 'NU'
     ARTICLE = 'AR'
     CATEGORY_CHOICES = (
         (NEWS, 'новость'),
         (ARTICLE, 'статья'),
     )
-    categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
-    dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
-    title = models.CharField(max_length=128)
-    text = models.TextField()
-    rating = models.SmallIntegerField(default=0)
+    categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE, verbose_name="Тип публикации")
+    dateCreation = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    postCategory = models.ManyToManyField(Category, through='PostCategory', verbose_name="Рубрика")
+    title = models.CharField(max_length=128, verbose_name="Заголовок")
+    text = models.TextField(verbose_name="Текст публикации")
+    rating = models.SmallIntegerField(default=0, verbose_name="Рейтинг")
 
     def like(self):
         self.rating += 1

@@ -60,9 +60,10 @@ class PostDeleteView(DeleteView):
 class SearchList(ListView):
     model = Post
     template_name = 'search.html'
-    context_object_name = 'search'
+    context_object_name = 'post'
     ordering = ['-dateCreation', 'author']
     paginate_by = 5
+
 
     def get_filter(self):
         return PostFilter(self.request.GET, queryset=super().get_queryset())

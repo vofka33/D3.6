@@ -3,10 +3,11 @@
 {% block title %} News list {% endblock title %}
 
 {% block content %}
-<h3>Информация о публикации</h3>
+<h3>Заполните все поля</h3>
+
 <form method="POST">
     {% csrf_token %}
-    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
-    <input type="submit" value="Добавить новость">
+    {{ form.as_p }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <input type="submit" value="Добавить материал">
 </form>
 {% endblock content %}
