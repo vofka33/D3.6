@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import PostsList, PostDetailView, PostAddView, PostEditView, PostDeleteView, SearchList
+from .views import PostsList, PostDetailView, PostAddView, PostEditView, PostDeleteView, SearchList, EditUserProfile
+from django.contrib.auth.views import LoginView, LogoutView
+from .views import upgrade_me
 
 urlpatterns = [
    path('', PostsList.as_view()),
@@ -9,5 +11,10 @@ urlpatterns = [
    path('add/', PostAddView.as_view(), name='post_add'), 
    path('<int:pk>/add', PostEditView.as_view(), name='post_edit'),
    path('<int:pk>/delete', PostDeleteView.as_view(), name='post_delete'),
-
+   path('<int:pk>/add', PostEditView.as_view(), name='post_edit'),
+   path('user_update/', EditUserProfile.as_view(), name='user_update'),
+   # path('login/', LoginView.as_view(template_name='news/login.html'), name='login'),
+   # path('logout/', LogoutView.as_view(template_name='news/logout.html'), name='logout'),
+   path('accounts/', include('allauth.urls')),
+   path('upgrade/', upgrade_me, name='upgrade')
    ]
