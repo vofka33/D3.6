@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Author, Category
+from .models import Post, Author, Category, PostCategory
 from django.shortcuts import render
 from django.views import View
 from django.core.paginator import Paginator
@@ -12,6 +12,11 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.dispatch import receiver
+from django.core.mail import mail_managers
+from django.db.models.signals import post_save, m2m_changed, pre_save
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 
 
 
@@ -110,3 +115,39 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
     return redirect('/news/')
+
+
+class CategoryList(ListView):
+    model = Category
+    ordering = 'name'
+    template_name = 'category_list.html'
+    context_object_name = 'category_list'
+    
+
+
+@login_required
+def add_subscribe(request, pk):
+    a = request.user
+    a.save()
+    b = Category.objects.get(id=pk)
+    b.subscribers.add(a)
+    return redirect('/news/')
+
+
+
+@receiver(m2m_changed, sender=PostCategory)
+def notify_post_create(sender, instance, *args, **kwargs):
+    for cat_id in instance.postCategory.all():
+        
+        users = Category.objects.filter(name=cat_id).values("subscribers")
+        # print('user', users)
+        link = ''.join(['http://', get_current_site(None).domain, ':8000/'])
+        for user_id in users:
+            send_mail(
+                subject=f'Новая публикация - "{instance.title}"',
+                message=f"Здравствуй, {User.objects.get(pk=user_id['subscribers']).username}. "
+                        f'Новая публикация в вашем любимом разделе! \n"{instance.text[:50]}..."\n'
+                        f'Пройдите по ссылке {link} что бы прочитать на нашем сайте.',
+                from_email='imya6301@yandex.ru',
+                recipient_list=[User.objects.get(pk=user_id['subscribers']).email]
+            )

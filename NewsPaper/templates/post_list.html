@@ -38,7 +38,7 @@
            <a href="{% url 'post_detail' post.id %}">{{ post.title | censor }}</a>
         </td>
         <td align="left">
-            {{ post.dateCreation | date:'d M Y' }}
+            {{ post.dateCreation | date:'d m Y' }}
         </td>
         <td align="left">
             {{ post.text|truncatewords:20 | censor }}
