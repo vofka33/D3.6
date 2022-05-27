@@ -19,4 +19,5 @@ urlpatterns = [
    path('upgrade/', upgrade_me, name='upgrade'),
    path('category/', CategoryList.as_view(), name='category'),
    path('<int:pk>/add_subscribe', add_subscribe, name='subscribe'),
+   # path('', IndexView.as_view()),
    ]

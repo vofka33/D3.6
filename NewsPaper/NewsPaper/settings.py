@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -171,10 +172,32 @@ STATICFILES_DIRS = [ BASE_DIR / "static" ]
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 EMAIL_HOST_USER = 'imya6301'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_PASSWORD = 'wCohEonzQ3'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
-DEFAULT_FROM_EMAIL = 'imya6301@yandex.ru'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_TIMEOUT = 60 
+
+load_dotenv()
+env_path = Path('.')/'.env'
+load_dotenv(dotenv_path=env_path)
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+
+
+
+# redis cloud работает (но не всегда)
+# CELERY_BROKER_URL = 'redis://:ScUFPpj2FzddLtbiqhQ9WMee2nQnuzSK@redis-12614.c281.us-east-1-2.ec2.cloud.redislabs.com:12614/0'
+# CELERY_RESULT_BACKEND = 'redis://:ScUFPpj2FzddLtbiqhQ9WMee2nQnuzSK@rredis-12614.c281.us-east-1-2.ec2.cloud.redislabs.com:12614/0'
+
+# docker
+CELERY_BROKER_URL = 'redis://default:redispw@localhost:49153'
+CELERY_RESULT_BACKEND = 'redis://default:redispw@localhost:49153'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Moscow'

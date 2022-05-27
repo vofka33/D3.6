@@ -17,6 +17,7 @@ from django.core.mail import mail_managers
 from django.db.models.signals import post_save, m2m_changed, pre_save
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
+from .tasks import send_post_create_celery
 
 
 
@@ -52,6 +53,16 @@ class PostAddView(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post')
     template_name = 'news/post_add.html'
     form_class = PostForm
+
+    def notify_post_create_celery(self, request):
+        for cat_id in instance.postCategory.all():
+
+            users = Category.objects.filter(name=cat_id).values("subscribers")
+            # print('user', users)
+            link = ''.join(['http://', get_current_site(None).domain, ':8000/'])
+            send_post_create_celery(users, link)
+            
+
 
 
 class PostEditView(PermissionRequiredMixin, UpdateView):
@@ -151,3 +162,5 @@ def notify_post_create(sender, instance, *args, **kwargs):
                 from_email='imya6301@yandex.ru',
                 recipient_list=[User.objects.get(pk=user_id['subscribers']).email]
             )
+
+
