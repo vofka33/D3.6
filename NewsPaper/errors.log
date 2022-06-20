@@ -1,0 +1,15 @@
+2022-06-19 17:55:51,692 ERROR Internal Server Error: / D:\__study\_code\d\d2.4\venv\lib\site-packages\django\utils\log.py (<class 'django.template.exceptions.TemplateDoesNotExist'>, TemplateDoesNotExist('post_list1.html, news/post_list.html'), <traceback object at 0x0000028283212500>)
+Traceback (most recent call last):
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\template\response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\template\response.py", line 63, in resolve_template
+    return select_template(template, using=self.using)
+  File "D:\__study\_code\d\d2.4\venv\lib\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(', '.join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: post_list1.html, news/post_list.html

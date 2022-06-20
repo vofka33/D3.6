@@ -201,3 +201,123 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Moscow'
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'loggers': {
+        'django': {
+            'handlers': ['console_DEBUG', 'console_WARNING', 'console_ERROR', 'console_CRITICAL', 'file_generallog'],
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['file_errorslog_ERROR', 'file_errorslog_ERROR', 'mail_admins'],
+            'level': 'DEBUG',
+        },
+        'django.server': {
+            'handlers': ['file_errorslog_ERROR', 'file_errorslog_ERROR', 'mail_admins'],
+            'level': 'DEBUG',
+        },
+        'django.template': {
+            'handlers': ['file_errorslog_ERROR', 'file_errorslog_ERROR'],
+            'level': 'DEBUG',
+        },
+        'django.db_backends': {
+            'handlers': ['file_errorslog_ERROR', 'file_errorslog_ERROR'],
+            'level': 'DEBUG',
+        },
+        'django.security': {
+            'handlers': ['file_securitylog'],
+            'level': 'DEBUG',
+        },
+    },
+    'handlers': {
+        'console_DEBUG': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'formatter_ALM',
+            'filters': ['require_debug_true'],
+        },
+        'console_WARNING': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'formatter_ALM_P',
+            'filters': ['require_debug_true'],
+        },
+        'console_ERROR': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'formatter_ALM_PE',
+            'filters': ['require_debug_true'],
+        },
+        'console_CRITICAL': {
+            'level': 'CRITICAL',
+            'class': 'logging.StreamHandler',
+            'formatter': 'formatter_ALM_PE',
+            'filters': ['require_debug_true'],
+        },
+        'file_generallog': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'formatter_AL_MOD_M',
+            'filters': ['require_debug_false'],
+            'filename': 'general.log',
+        },
+        'file_errorslog_ERROR': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'formatter': 'formatter_ALM_PE',
+            'filename': 'errors.log',
+        },
+        'file_errorslog_CRITICAL': {
+            'level': 'CRITICAL',
+            'class': 'logging.FileHandler',
+            'formatter': 'formatter_ALM_PE',
+            'filename': 'errors.log',
+        },
+        'file_securitylog': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'formatter': 'formatter_AL_MOD_M',
+            'filename': 'security.log',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'formatter_ALM_P',
+            'filters': ['require_debug_false'],
+        }
+    },
+    'formatters': {
+        'formatter_ALM': {
+            'format': '{asctime} {levelname} {message}',
+            'datetime': '%Y.%m.%d %H:%M:%S',
+            'style': '{',
+        },
+        'formatter_ALM_P': {
+            'format': '{asctime} {levelname} {message} {pathname}',
+            'datetime': '%Y.%m.%d %H:%M:%S',
+            'style': '{',
+        },
+        'formatter_ALM_PE': {
+            'format': '{asctime} {levelname} {message} {pathname} {exc_info}',
+            'datetime': '%Y.%m.%d %H:%M:%S',
+            'style': '{',
+        },
+        'formatter_AL_MOD_M': {
+            'format': '{asctime} {levelname} {module} {message}',
+            'datetime': '%Y.%m.%d %H:%M:%S',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+}

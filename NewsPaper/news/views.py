@@ -18,8 +18,13 @@ from django.db.models.signals import post_save, m2m_changed, pre_save
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from .tasks import send_post_create_celery
+import logging
 
-
+logger = logging.getLogger(__name__)
+logger.warning('!WARNING!')
+logger.info('!INFO!')
+logger.error('!ERROR!')
+logger.critical('!CRITICAL!')
 
 class PostsList(ListView):
     # Указываем модель, объекты которой мы будем выводить
