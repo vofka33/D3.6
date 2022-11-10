@@ -19,12 +19,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from .tasks import send_post_create_celery
 import logging
+from django.utils.translation import gettext as _
 
-logger = logging.getLogger(__name__)
-logger.warning('!WARNING!')
-logger.info('!INFO!')
-logger.error('!ERROR!')
-logger.critical('!CRITICAL!')
+# logger = logging.getLogger(__name__)
+# logger.info('!INFO!')
+# logger.warning('!WARNING!')
+# logger.error('!ERROR!')
+# logger.critical('!CRITICAL!')
 
 class PostsList(ListView):
     # Указываем модель, объекты которой мы будем выводить

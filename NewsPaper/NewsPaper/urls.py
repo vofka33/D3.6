@@ -23,3 +23,5 @@ urlpatterns = [
    path('news/', include('news.urls')),
    path('', PostsList.as_view())
 ]
+
+

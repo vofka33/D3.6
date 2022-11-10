@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
 
 
 
@@ -25,7 +27,7 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, help_text=_('category name'))
     subscribers = models.ManyToManyField(User, blank=True, related_name='subscribers')
 
     def __str__(self):
